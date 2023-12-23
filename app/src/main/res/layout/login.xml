@@ -9,7 +9,7 @@
         android:id="@+id/editTextLoginUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="Tên đăng nhập"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"/>
 
@@ -17,7 +17,7 @@
         android:id="@+id/editTextLoginPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Mật khẩu"
         android:layout_below="@id/editTextLoginUsername"
         android:layout_marginTop="8dp"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Đăng nhập"
         android:layout_below="@id/editTextLoginPassword"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"/>

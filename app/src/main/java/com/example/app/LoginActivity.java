@@ -33,18 +33,18 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Kiểm tra xác nhận mật khẩu
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Phải điền cả tài khoản lẫn mật khẩu", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 boolean loginSuccessful = dbHelper.checkUserCredentials(username, password);
 
                 if (loginSuccessful) {
-                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MQTT.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
             }
 

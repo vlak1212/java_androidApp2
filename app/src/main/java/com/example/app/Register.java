@@ -9,10 +9,24 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.app.LocaleManager;
+import android.content.Intent;
+import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import java.util.concurrent.TimeUnit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,6 +41,7 @@ public class Register extends AppCompatActivity {
     private TextInputLayout confirmPasswordLayout;
     private TextInputLayout passwordLayout;
     private Button registerButton;
+    DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +53,28 @@ public class Register extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPasswordInput);
         confirmPasswordLayout = findViewById(R.id.confirmPasswordInputLayout);
         registerButton = findViewById(R.id.registerButton);
+
+        dbHelper = new DatabaseHelper(this);
         registerButton.setOnClickListener(new View.OnClickListener() {
+            String pass = password.getText().toString();
+            String confirmPass = confirmPassword.getText().toString();
             @Override
             public void onClick(View view) {
                 String usernametxt = username.getText().toString();
                 String passwordtxt = password.getText().toString();
-                if (1 == 1) {
-                    new RegisterTask().execute(usernametxt, passwordtxt);
+                if (pass.equals(confirmPass)) {
+                    long result = dbHelper.addUser(usernametxt, passwordtxt);
+                    if (result != -1) {
+                        Toast.makeText(Register.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Register.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
-
         password.addTextChangedListener(new TextWatcher() { // watch thằng text
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -112,39 +138,39 @@ public class Register extends AppCompatActivity {
             passwordLayout.setError(null);
         }
     }
-    private class RegisterTask extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String username = params[0];
-            String password = params[1];
-            try {
-                // System.out.println(username + password);
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                String url = "jdbc:jtds:sqlserver://LAPTOP-L9BKK0OP\\SQLEXPRESS;databaseName=javaApp;integratedSecurity=true";
-                Connection connection = DriverManager.getConnection(url);
 
-                String query = "INSERT INTO dbo.register (user, pass) VALUES (?, ?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, username);
-                preparedStatement.setString(2, password);
-
-                int rowsAffected = preparedStatement.executeUpdate();
-
-                connection.close();
-
-                return rowsAffected > 0;
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        @Override
-        protected void onPostExecute(Boolean success) {
-            if (success) {
-                Toast.makeText(Register.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(Register.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
-            }
-        }
+//    private class RegisterTask extends AsyncTask<String, Void, Boolean> {
+//        @Override
+//        protected Boolean doInBackground(String... params) {
+//            String username = params[0];
+//            String password = params[1];
+//            try {
+//                // System.out.println(username + password);
+//                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+//                String url = "jdbc:jtds:sqlserver://LAPTOP-L9BKK0OP\\SQLEXPRESS;databaseName=javaApp;integratedSecurity=true";
+//                Connection connection = DriverManager.getConnection(url);
+//
+//                String query = "INSERT INTO dbo.register (user, pass) VALUES (?, ?)";
+//                PreparedStatement preparedStatement = connection.prepareStatement(query);
+//                preparedStatement.setString(1, username);
+//                preparedStatement.setString(2, password);
+//
+//                int rowsAffected = preparedStatement.executeUpdate();
+//
+//                connection.close();
+//
+//                return rowsAffected > 0;
+//            } catch (ClassNotFoundException | SQLException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }
+//        @Override
+//        protected void onPostExecute(Boolean success) {
+//            if (success) {
+//                Toast.makeText(Register.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(Register.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
-}
