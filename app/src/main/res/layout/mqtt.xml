@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:padding="16dp">
 
     <EditText
-        android:id="@+id/Topic"
+        android:id="@+id/input_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Topic"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        android:hint="Enter Topic"/>
 
     <EditText
-        android:id="@+id/URI"
+        android:id="@+id/input_suri"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="SeverURI"
-        android:layout_below="@id/Topic"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
-        android:inputType="textPassword"/>
+        android:layout_below="@id/input_topic"
+        android:layout_marginTop="16dp"
+        android:hint="Enter Server URI"/>
 
     <Button
-        android:id="@+id/buttonConect"
+        android:id="@+id/btn_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Conect"
-        android:layout_below="@id/URI"
+        android:layout_below="@id/input_suri"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        android:text="Connect"/>
+
     <Button
-        android:id="@+id/buttonLayout"
+        android:id="@+id/btn_change"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Layout"
-        android:layout_below="@id/buttonConect"
+        android:layout_below="@id/btn_connect"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        android:text="Change"/>
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_change"
+        android:layout_marginTop="16dp"
+        android:text="Status"/>
 
 </RelativeLayout>
